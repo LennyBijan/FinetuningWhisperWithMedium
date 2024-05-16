@@ -89,40 +89,41 @@ def analyze_chunks(audio, sr, min_chunk_length_samples, max_chunk_length_samples
 
 def compute_dynamic_thresholds(audio, sr, frame_length_samples, segment_length_samples):
     """
-    Berechnet Schwellenwerte für Energie und Zero-Crossing-Rate (ZCR).
+    Computes thresholds for energy and Zero-Crossing Rate (ZCR).
 
-    Die Schwellenwerte werden auf der Basis des Mittelwerts und der Standardabweichung
-    der Energie und der ZCR innerhalb einzelner Segmente des Audiosignals bestimmt.
+    The thresholds are determined based on the mean and standard deviation
+    of the energy and ZCR within individual segments of the audio signal.
     """
 
-    # Initialisierung der Listen für Energieschwellenwerte und ZCR-Schwellenwerte
+    # Initialization of lists for energy thresholds and ZCR thresholds
     energy_thresholds = []
     zcr_thresholds = []
 
-    # Iteration über das Audiosignal in Segmenten
+    # Iterating over the audio signal in segments
     for i in range(0, len(audio), segment_length_samples):
-        # Extrahiere das aktuelle Segment aus dem Audiosignal
+        # Extract the current segment from the audio signal
         segment = audio[i:i + segment_length_samples]
         
-        # Berechne die Anzahl der Frames im aktuellen Segment
+        # Calculate the number of frames in the current segment
         n_frames = max(int(len(segment) / frame_length_samples), 1)
         
-        # Berechne die Energie für jeden Frame im Segment
+        # Calculate the energy for each frame in the segment
         energy = np.array([np.sum(segment[j * frame_length_samples:(j + 1) * frame_length_samples] ** 2) for j in range(n_frames)])
         
-        # Berechne die Zero-Crossing-Rate für jeden Frame im Segment
+        # Calculate the Zero-Crossing Rate for each frame in the segment
         zcr = np.array([np.sum(librosa.zero_crossings(segment[j * frame_length_samples:(j + 1) * frame_length_samples], pad=False)) for j in range(n_frames)])
         
-        # Füge den Schwellenwert für die Energie zum Array hinzu
-        # Der Schwellenwert ist der Mittelwert plus die Standardabweichung der Energie im Segment
+        # Add the energy threshold to the array
+        # The threshold is the mean plus the standard deviation of the energy in the segment
         energy_thresholds.append(np.mean(energy) + np.std(energy))
         
-        # Füge den Schwellenwert für ZCR zum Array hinzu
-        # Der Schwellenwert ist der Mittelwert plus die Standardabweichung der ZCR im Segment
+        # Add the ZCR threshold to the array
+        # The threshold is the mean plus the standard deviation of ZCR in the segment
         zcr_thresholds.append(np.mean(zcr) + np.std(zcr))
     
-    # Gebe die Listen der Schwellenwerte zurück
+    # Return the lists of thresholds
     return energy_thresholds, zcr_thresholds
+
 
 
 def save_chunk(y, sr, start_end_tuple, index, output_dir, file_prefix, output_format):
