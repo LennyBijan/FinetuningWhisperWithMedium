@@ -24,66 +24,66 @@ def samples_per_ms(sample_rate, ms):
 
 def analyze_chunks(audio, sr, min_chunk_length_samples, max_chunk_length_samples, frame_length_samples, overlap_samples):
     """
-    Analysiert das Audio, um Chunks basierend auf Energie und Zero-Crossing-Rate zu finden.
+    Analyzes the audio to find chunks based on energy and Zero-Crossing Rate (ZCR).
 
-    Diese Funktion teilt das Audio in Frames auf und bestimmt, ob jeder Frame still oder aktiv ist.
-    Aktive Frames werden zu Chunks aggregiert. Stille Frames signalisieren das Ende eines Chunks,
-    wobei die angegebenen minimalen und maximalen Chunk-Längen berücksichtigt werden.
+    This function divides the audio into frames and determines whether each frame is silent or active.
+    Active frames are aggregated into chunks. Silent frames signal the end of a chunk,
+    taking into account the specified minimum and maximum chunk lengths.
     """
-    # Aufteilung des Audios in fünf Segmente zur Berechnung der Schwellenwerte
+    # Dividing the audio into five segments for threshold calculation
     segment_length_samples = len(audio) // 5
-    # Berechne dynamische Schwellenwerte für Energie und ZCR für jedes Segment
+    # Compute dynamic thresholds for energy and ZCR for each segment
     energy_thresholds, zcr_thresholds = compute_dynamic_thresholds(audio, sr, frame_length_samples, segment_length_samples)
 
-    chunks = []  # Initialisierung der Liste für die gefundenen Chunks
-    current_chunk_start = None  # Startpunkt des aktuellen Chunks
-    last_valid_end = None  # Endpunkt des letzten gültigen Frames im aktuellen Chunk
-    is_previous_frame_silent = False  # Zustand des vorherigen Frames
+    chunks = []  # Initialization of the list for the found chunks
+    current_chunk_start = None  # Starting point of the current chunk
+    last_valid_end = None  # Endpoint of the last valid frame in the current chunk
+    is_previous_frame_silent = False  # State of the previous frame
 
-    # Iteration über das Audio in Frame-Schritten
+    # Iterating over the audio in frame steps
     for i in range(0, len(audio), frame_length_samples):
         segment_index = i // segment_length_samples
-        segment_index = min(segment_index, len(energy_thresholds) - 1)  # Verhindert Index-Überlauf
+        segment_index = min(segment_index, len(energy_thresholds) - 1)  # Prevent index overflow
 
-        # Zuweisung der Schwellenwerte für den aktuellen Frame
+        # Assigning thresholds for the current frame
         energy_threshold = energy_thresholds[segment_index]
         zcr_threshold = zcr_thresholds[segment_index]
 
-        # Extraktion des aktuellen Frames
+        # Extracting the current frame
         frame = audio[i:min(i + frame_length_samples, len(audio))]
-        # Berechnung von Energie und ZCR für den Frame
+        # Calculating energy and ZCR for the frame
         frame_energy = np.sum(frame ** 2)
         frame_zcr = np.sum(librosa.zero_crossings(frame, pad=False))
 
-        # Bestimmung, ob der Frame still ist
+        # Determining whether the frame is silent
         is_silent = frame_energy <= energy_threshold and frame_zcr <= zcr_threshold
 
-        # Wenn kein Chunk begonnen hat und der Frame nicht still ist, beginne einen neuen Chunk
-            if current_chunk_start is None and not is_silent:
-            current_chunk_start = i  # Start eines neuen Chunks
+        # If no chunk has started and the frame is not silent, start a new chunk
+        if current_chunk_start is None and not is_silent:
+            current_chunk_start = i  # Start of a new chunk
             last_valid_end = i + frame_length_samples
 
-        # Wenn ein Chunk aktiv ist
+        # If a chunk is active
         if current_chunk_start is not None:
-            # Wenn der Frame still ist oder die maximale Chunk-Länge erreicht wurde
+            # If the frame is silent or the maximum chunk length has been reached
             if is_silent and (is_previous_frame_silent or i + frame_length_samples - current_chunk_start >= max_chunk_length_samples):
-                # Überprüfe, ob der Chunk lang genug ist, um gespeichert zu werden
+                # Check if the chunk is long enough to be saved
                 if last_valid_end and last_valid_end - current_chunk_start >= min_chunk_length_samples:
-                    chunks.append((current_chunk_start, last_valid_end + overlap_samples))  # Speichern mit Überlappung
+                    chunks.append((current_chunk_start, last_valid_end + overlap_samples))  # Save with overlap
                     current_chunk_start = None
             else:
-                # Aktualisiere das Ende des aktuellen Chunks
+                # Update the end of the current chunk
                 last_valid_end = i + frame_length_samples
-                # Wenn der Frame nicht still ist und die maximale Chunk-Länge erreicht wurde
+                # If the frame is not silent and the maximum chunk length has been reached
                 if not is_silent and i + frame_length_samples - current_chunk_start >= max_chunk_length_samples:
-                    chunks.append((current_chunk_start, min(len(audio), last_valid_end + overlap_samples)))  # Speichern mit Überlappung
+                    chunks.append((current_chunk_start, min(len(audio), last_valid_end + overlap_samples)))  # Save with overlap
                     current_chunk_start = None
 
         is_previous_frame_silent = is_silent
 
-    # Abspeichern des letzten Chunks, falls notwendig
+    # Saving the last chunk, if necessary
     if current_chunk_start is not None and last_valid_end - current_chunk_start >= min_chunk_length_samples:
-        chunks.append((current_chunk_start, min(len(audio), last_valid_end + overlap_samples)))  # Speichern mit Überlappung
+        chunks.append((current_chunk_start, min(len(audio), last_valid_end + overlap_samples)))  # Save with overlap
 
     return chunks
 
@@ -123,8 +123,6 @@ def compute_dynamic_thresholds(audio, sr, frame_length_samples, segment_length_s
     
     # Return the lists of thresholds
     return energy_thresholds, zcr_thresholds
-
-
 
 def save_chunk(y, sr, start_end_tuple, index, output_dir, file_prefix, output_format):
     """
