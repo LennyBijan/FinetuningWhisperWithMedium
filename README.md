@@ -57,3 +57,7 @@ Navigate to the directory containing your script in your terminal or command pro
     python preprocess_audio.py
 
 This command will process all .wav files in the specified source directory, segmenting them according to the defined parameters, and save the output in the designated directory.
+
+# Socials
+
+Make sure to check out my medium blog! https://medium.com/@lenny.bijan
