@@ -13,7 +13,6 @@ The Audio Preprocessing Toolkit simplifies the complex task of audio segmentatio
     
     Customizable Sample Rates: Supports various audio sampling rates, making it versatile for different types of audio inputs.
 
-    
     Output Management: Automatically organizes output audio chunks into dedicated directories for each input file, maintaining a clean and organized file structure.
 
 This toolkit is particularly useful for researchers and developers working on speech recognition and processing tasks who need to preprocess large audio datasets into smaller, more manageable units without losing contextual integrity. It is also an essential step for those preparing datasets for training or fine-tuning the Whisper model.
