@@ -1,0 +1,4 @@
+numpy
+librosa
+SoundFile
+concurrent-futures; python_version < "3.2"
