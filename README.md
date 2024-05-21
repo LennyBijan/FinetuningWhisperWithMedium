@@ -33,3 +33,27 @@ git clone https://github.com/yourusername/audiopreprocessing-toolkit.git
 cd audiopreprocessing-toolkit
 pip install -r requirements.txt
 ```
+
+## Execution
+
+To start processing your audio files with the Audio Preprocessing Toolkit, simply run the main script. Ensure that you have the necessary directory paths and parameters set up in the script before executing.
+
+Here are the steps to run the script:
+
+  1. Modify the Script (if needed):
+
+Open the main script file and modify the source_dir and output_dir variables to point to your audio files directory and the desired output directory, respectively. You can also adjust other parameters such as frame_length_ms, min_chunk_length_ms, and max_chunk_length_ms according to your requirements.
+
+  2. Execute the Script:
+
+Navigate to the directory containing your script in your terminal or command prompt, and run the following command:
+    
+    python your_script_name.py
+    
+  Replace your_script_name.py with the name of your Python script file.
+
+## Example Commmand
+
+    python preprocess_audio.py
+
+This command will process all .wav files in the specified source directory, segmenting them according to the defined parameters, and save the output in the designated directory.
