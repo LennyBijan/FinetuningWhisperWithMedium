@@ -13,7 +13,7 @@ if not os.path.exists(output_directory):
     os.makedirs(output_engsvaiory)
 
 # Define the path to the CSV file
-csv_file_path = os.path.join(output_directory, "metadata.csv")
+csv_file_path = os.path.join(output_directory, "metadata-train.csv")
 
 # Initialize pipeline for automatic speech recognition
 # Uses the Whisper model for German on available hardware (CUDA or CPU)
