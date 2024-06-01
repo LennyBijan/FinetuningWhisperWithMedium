@@ -5,15 +5,15 @@ from transformers import pipeline
 import whisper
 
 # Define the base directory containing subfolders with audio files
-base_directory = "AudioGenFinal/train/wav/"
-output_directory = "BA_Datensatz_V2/data/"
+base_directory = "put/your/base_directory/here/"
+output_directory = "put/your/output_directory/here/"
 
 # Ensure that the target directory exists
 if not os.path.exists(output_directory):
     os.makedirs(output_engsvaiory)
 
 # Define the path to the CSV file
-csv_file_path = os.path.join(output_directory, "metadata-train.csv")
+csv_file_path = os.path.join(output_directory, "metadata.csv")
 
 # Initialize pipeline for automatic speech recognition
 # Uses the Whisper model for German on available hardware (CUDA or CPU)
