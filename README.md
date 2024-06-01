@@ -2,27 +2,29 @@
 
 ## Introduction
 
-The Audio Preprocessing Toolkit is designed to facilitate the preprocessing of audio files for the purpose of fine-tuning OpenAI's Whisper model. It automates the task of audio segmentation to create high-quality datasets necessary for effective machine learning training.
+The Audio Preprocessing Toolkit is designed to streamline the entire process of preparing audio files for fine-tuning OpenAI’s Whisper model. This comprehensive toolkit not only automates the segmentation of audio into high-quality datasets but also facilitates the creation of metadata, uploads the processed datasets to Hugging Face, and sets up custom loading scripts for easy integration and use. It simplifies complex tasks, enhancing efficiency and effectiveness in training machine learning models with precision. This toolkit complements the step-by-step guide provided on my Medium blog and will continue to be updated with additional scripts for fine-tuning, ensuring it remains a valuable resource for developers.
 
 ## Features
 
-- **Dynamic Thresholding**: Adaptive calculation of audio energy and ZCR to segment audio based on its content.
-- **Adjustable Segment Sizes**: Customizable minimum and maximum chunk lengths and frame length.
-- **Concurrency for Efficiency**: Utilizes Python's `concurrent.futures` to process multiple files concurrently.
-- **Customizable Sample Rates**: Supports various audio sampling rates to accommodate different types of audio inputs.
-- **Organized Output**: Automatically sorts output audio chunks into dedicated directories per input file.
+-**Flexible Configuration Options**: Provides adjustable settings for managing audio segment sizes, frame lengths, and chunk overlaps, tailored to diverse preprocessing needs.
+
+-**Efficient Parallel Processing**: Utilizes Python’s concurrent.futures to handle multiple files concurrently, enhancing the overall processing speed.
+
+-**Versatile Audio Support**: Supports a variety of audio sampling rates, accommodating a range of audio types and sources.
+
+-**Structured Data Management**: Ensures processed audio and metadata are well-organized into dedicated directories for each input file, simplifying dataset handling.
+
+-**Comprehensive Metadata Handling**: Automates the creation and management of metadata files, crucial for effective dataset utilization in machine learning workflows.
+
+-**Seamless Hugging Face Integration**: Facilitates the easy uploading of datasets to the Hugging Face platform, promoting easy access and collaboration.
+
+-**Custom Loading Scripts**: Provides tools for setting up custom data loaders, optimizing the integration of datasets into training and evaluation processes.
+
 
 ## Intended Use
-This toolkit is particularly useful for researchers and developers working on speech recognition and processing tasks who need to preprocess large audio datasets into smaller, more manageable units without losing contextual integrity. It is also an essential step for those preparing datasets for training or fine-tuning the Whisper model.
+This toolkit is designed for researchers and developers who work with speech recognition and processing. It simplifies the task of breaking down large audio datasets into smaller, contextually intact segments. Additionally, it helps in managing metadata, uploading datasets to Hugging Face, and setting up datasets for training or fine-tuning OpenAI’s Whisper model. This makes it a practical tool for anyone looking to prepare and utilize audio data efficiently.
 
 ## Getting Started
-
-### Prerequisites
-
-- Python 3.8 or higher
-- Librosa
-- SoundFile
-- NumPy
 
 ### Installation
 
