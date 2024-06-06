@@ -52,7 +52,7 @@ with open(csv_file_path, mode='w', newline='', encoding='utf-8') as csv_file:
                 batch_filenames.append(filename)
 
                 # Process the batch when it is full
-                if len(batch_audio_passens) == batch_size:
+                if len(batch_audio_paths) == batch_size:
                     # Transcribe the audio files in the batch
                     audios = [whisper.load_audio(path) for path in batch_audio_paths]
                     results = pipe(audios, batch_size=len(audios))
