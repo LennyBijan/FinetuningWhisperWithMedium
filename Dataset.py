@@ -34,7 +34,7 @@ class BA_Datensatz_V2(datasets.GeneratorBasedBuilder):
             audio_path[split] = dl_manager.download(f"{_DATA_URL}/audio_{split}.tgz")
             local_extracted_archive[split] = dl_manager.extract(audio_path[split]) if not dl_manager.is_streaming else None
             metadata_path[split] = dl_manager.download_and_extract(f"{_DATA_URL}/metadata_{split}.csv.gz")
-        path_to_clips = "BA_Datensatz_V2"
+        path_to_clips = "datasetname"
 
         # Creates and returns the split generators
         return [
