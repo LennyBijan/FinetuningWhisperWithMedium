@@ -10,8 +10,8 @@ output_directory = "put/your/output_directory/here/"
 
 # Ensure that the target directory exists
 if not os.path.exists(output_directory):
-    os.makedirs(output_engsvaiory)
-
+    os.makedirs(output_directory)
+    
 # Define the path to the CSV file
 csv_file_path = os.path.join(output_directory, "metadata-train.csv")
 
